@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>To Do App</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+     <!--Main Container -->
+     <div class="container">
+     	 <div class="header">
+     	   <div class="reset"><i class="fa fa-refresh" aria-hidden="true"></i></div>
+     	   <div class="title"><h1>To Do App</h1></div>
+     	   <div id="date">Date</div>
+     	 </div>
+
+     <!-- Content of the Body -->	 
+     	 <div class="content">
+     	 	<ul id="list"></ul>
+     	 </div>
+
+
+     <!-- Add item bar -->
+     	 <div class="add-item">
+
+         <input type="text" name="to-do-list" id="input" placeholder="Add to do items">
+         <i class="fa fa-plus-circle plus" aria-hidden="true"></i>
+     	 </div>
+     </div>
+
+     <script type="text/javascript">
+     	
+     	const clear=document.querySelector('.reset');
+     	const date=document.getElementById('date');
+     	const list=document.getElementById('list');
+     	const input=document.getElementById('input');
+        let LIST=[];
+        let id=0;
+        const CHECK="fa-check-circle";
+        const UNCHECK="fa-circle-thin";
+        const LINE_THROUGH="lineThrough";
+
+
+        function addToDo(toDo,id,done,trash){
+     	const position="beforeend";
+        if (trash){return;}
+        const DONE=done?CHECK:UNCHECK;
+        const LINE=done?LINE_THROUGH:"";
+     	const text=`<li class="item">
+     	             <i class="fa ${DONE} circle" job="complete" id="${id}"aria-hidden="true"></i>
+     	             <p class="text ${LINE}">${toDo}</p>
+     	             <i class="fa fa-trash delete" job="delete" id="${id}aria-hidden="true"></i>
+     	            </li>`
+
+     	list.insertAdjacentHTML(position,text);
+    }
+
+    document.addEventListener("keyup",function(event){
+    	if(event.keyCode==13){
+           const toDo=input.value;
+           if(toDo){
+           	addToDo(toDo,id,false,false);
+           	List.push({
+           		name: todo,
+           		id: id,
+           		done:false,
+           		trash:false
+
+           	});
+           }
+           input.value="";
+           id++;
+    	}
+
+    });
+   
+
+   function completeToDo(element){
+   	element.classList.toggle(CHECK);
+   	element.classList.toggle(UNCHECK);
+   	element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
+   	LIST[element.id].done=LIST[element.id].done?false:true;
+   }
+
+   function removeToDo(element){
+   	element.parentNode.parentNode.removeChild(element.parentNode);
+   	LIST[element.id].trash=true;
+   }
+    
+    list.addEventListener("click",function(event){
+    	let element=event.target;
+    	const elementJOB=event.target.attributes.job.value;
+    	if(elementJOB=="complete"){
+           completeToDo(element);
+    	}
+    	else if(elementJOB=="delete"){
+           removeToDo(element);
+    	}
+
+    });
+    let options={weekday:'long',month:'short',day:'numeric'};
+    date.innerHTML=new Date().toLocaleDateString("en-US",options);
+   </script>
+
+</body>
+</html>
